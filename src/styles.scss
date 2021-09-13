@@ -1,1 +1,97 @@
-/* You can add global styles to this file, and also import other style files */
+@import '~@swimlane/ngx-datatable/index.css';
+@import '~@swimlane/ngx-datatable/themes/material.scss';
+@import '~@swimlane/ngx-datatable/assets/icons.css';
+@import './../node_modules/bootstrap/dist/css/bootstrap-grid.min.css';
+@import '~bootstrap/scss/bootstrap';
+
+body {
+  font-family: Helvetica, sans-serif;
+}
+
+@media screen and (min-width: 991px) {
+  body {
+    font-size: 14px;
+  }
+}
+
+.container {
+  margin-bottom: 50px;
+}
+
+.button-form {
+  border-top: lightgray 0.1rem solid;
+  text-align: right;
+  padding-top: 0.5rem !important;
+
+  .btn {
+    margin-left: 0.5rem !important;
+  }
+}
+
+.button-form-filter {
+  text-align: right;
+  padding-bottom: 0.5rem !important;
+
+  .btn {
+    margin-left: 0.5rem !important;
+  }
+}
+
+.form-filter {
+  min-height: 30px;
+
+  .filter-icon {
+    float: right;
+    z-index: 9999;
+  }
+}
+
+.required:after {
+  content: " (*)";
+  color: #dc3545;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.btn-icon {
+  width: 30px;
+  height: 30px;
+}
+
+button>fa-icon>svg {
+  font-size: smaller !important;
+}
+
+strong>fa-icon>svg {
+  font-size: smaller !important;
+}
+
+.close {
+  font-size: x-large !important;
+}
+
+button {
+  padding: 0.25rem 0.5rem !important;
+  font-size: 0.875rem !important;
+  line-height: 1.5 !important;
+  border-radius: 0.2rem !important;
+}
+
+.column-actions {
+  text-align: right !important;
+  button {
+    margin-left: 0.5rem !important;
+  }
+}
+
+.card {
+  padding: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.form-check-label {
+  margin-left: -35px;
+  display: block;
+}
