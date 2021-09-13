@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from './home/home.component';
 import { LayoutComponent } from './layout/layout.component';
 
 export const routes: Routes = [
@@ -19,6 +18,10 @@ export const routes: Routes = [
       {
         path: 'categorias-productos',
         loadChildren: () => import('./categorias-productos/categorias-productos.module').then(m => m.CategoriaProductoModule)
+      },
+      {
+        path: 'productos',
+        loadChildren: () => import('./productos/productos.module').then(m => m.ProductoModule)
       },
     ],
   },
