@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SERVER_API_URL } from '../app.constants';
 import { createRequestOption } from '../shared/request-util';
-import { IProducto } from './productos.models';
+import { IProducto, IProductoUpdate } from './productos.models';
 
 @Injectable({ providedIn: 'root' })
 export class ProductoService {
@@ -21,11 +21,11 @@ export class ProductoService {
     return this.http.get<IProducto>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
-  create(producto: IProducto): Observable<HttpResponse<IProducto>> {
+  create(producto: IProductoUpdate): Observable<HttpResponse<IProducto>> {
     return this.http.post<IProducto>(this.resourceUrl, producto, { observe: 'response' });
   }
 
-  update(producto: IProducto): Observable<HttpResponse<IProducto>> {
+  update(producto: IProductoUpdate): Observable<HttpResponse<IProducto>> {
     return this.http.put<IProducto>(this.resourceUrl, producto, { observe: 'response' });
   }
 

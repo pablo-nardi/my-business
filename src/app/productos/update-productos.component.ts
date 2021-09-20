@@ -4,7 +4,9 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ProductoService } from './productos.service';
-import { IProducto } from './productos.models';
+import { IProducto, IProductoUpdate } from './productos.models';
+import { ICategoriaProducto } from '../categorias-productos/categorias-productos.models';
+import { CategoriaProductoService } from '../categorias-productos/categorias-productos.service';
 
 @Component({
   selector: 'app-update-productos',
@@ -13,22 +15,32 @@ import { IProducto } from './productos.models';
 export class UpdateProductoComponent implements OnInit {
   isSaving = false;
 
+  categorias: ICategoriaProducto[] = [];
+
   myForm = this.fb.group({
     id: [],
     descripcion: [null, [Validators.required]],
+    categoriaId: [null, [Validators.required]],
     stock: [null, [Validators.required, Validators.min(0)]],
     cantidadMinima: [null, [Validators.required, Validators.min(0)]],
-    categoriaId: [null, [Validators.required]],
-    activa: [null],
+    activo: [null],
   });
 
   constructor(
     private productoService: ProductoService,
+    private categoriaProductoService: CategoriaProductoService,
     private activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
   ) { }
 
   ngOnInit(): void {
+    this.categoriaProductoService.findAll({
+      limit: 0,
+      activa: true
+    }).subscribe(
+      (res) => this.categorias = res.body.rows
+    );
+
     const id = this.activatedRoute.snapshot.paramMap.get("id");
     if (id) {
       this.productoService.find(parseInt(id)).subscribe(
@@ -41,7 +53,10 @@ export class UpdateProductoComponent implements OnInit {
     this.myForm.patchValue({
       id: producto.id,
       descripcion: producto.descripcion,
-      activa: producto.activa,
+      categoriaId: producto.Categoria.id,
+      stock: producto.stock,
+      cantidadMinima: producto.cantidadMinima,
+      activo: producto.activo,
     });
   }
 
@@ -59,14 +74,14 @@ export class UpdateProductoComponent implements OnInit {
     }
   }
 
-  private createFromForm(): IProducto {
+  private createFromForm(): IProductoUpdate {
     return {
       id: this.myForm.get(['id'])!.value,
       descripcion: this.myForm.get(['descripcion'])!.value,
+      categoriaId: this.myForm.get(['categoriaId'])!.value,
       stock: this.myForm.get(['stock'])!.value,
       cantidadMinima: this.myForm.get(['cantidadMinima'])!.value,
-      categoria: this.myForm.get(['categoriaId'])!.value,
-      activa: this.myForm.get(['activa'])!.value,
+      activo: this.myForm.get(['activo'])!.value,
     };
   }
 

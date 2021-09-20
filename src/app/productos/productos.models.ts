@@ -5,6 +5,15 @@ export interface IProducto {
   descripcion: string;
   stock: number;
   cantidadMinima: number;
-  activa: boolean;
-  categoria: ICategoriaProducto;
+  activo: boolean;
+  Categoria: ICategoriaProducto;
+}
+
+export interface IProductoUpdate {
+  id: number;
+  descripcion: string;
+  stock: number;
+  cantidadMinima: number;
+  activo: boolean;
+  categoriaId: number;
 }

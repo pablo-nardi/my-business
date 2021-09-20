@@ -5,8 +5,14 @@
     <dl *ngIf="producto">
       <dt>Descripción</dt>
       <dd>{{ producto.descripcion }}</dd>
-      <dt>Activa</dt>
-      <dd>{{ producto.activa ? 'Si' : 'No' }}</dd>
+      <dt>Categoría</dt>
+      <dd>{{ producto.Categoria.descripcion }}</dd>
+      <dt>Stock</dt>
+      <dd>{{ producto.stock }}</dd>
+      <dt>Cantidad mínima</dt>
+      <dd>{{ producto.cantidadMinima }}</dd>
+      <dt>Activo</dt>
+      <dd>{{ producto.activo ? 'Si' : 'No' }}</dd>
     </dl>
 
     <div class="button-form">
