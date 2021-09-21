@@ -1,8 +1,8 @@
 <div class="container">
   <h2>
-    <button type="button" [routerLink]="['new']" class="btn btn-primary btn-icon" title="Crear Producto">
+    <button type="button" [routerLink]="['new']" class="btn btn-primary btn-icon" title="Crear Proveedor">
       <fa-icon icon="plus"></fa-icon>
-    </button> Productos
+    </button> Proveedores
   </h2>
 
   <div class="card">
@@ -17,16 +17,23 @@
       <ng-container *ngIf="!collapsedFilter">
         <div class="row">
           <div class="col-lg-4">
-            <label for="descripcion" class="form-label">Descripción</label>
-            <input type="text" class="form-control" name="descripcion" id="descripcion" formControlName="descripcion" />
+            <label for="razonSocial" class="form-label">Razón Social</label>
+            <input type="text" class="form-control" name="razonSocial" id="razonSocial" formControlName="razonSocial" />
           </div>
 
-          <div class="col-lg-3">
-            <label for="categoriaId" class="form-label">Categoría</label>
-            <select type="text" class="form-control" name="categoriaId" id="categoriaId" formControlName="categoriaId">
-              <option [ngValue]="null">Seleccione</option>
-              <option [value]="categoria.id" *ngFor="let categoria of categorias">{{categoria.descripcion}}</option>
-            </select>
+          <div class="col-lg-4">
+            <label for="telefono" class="form-label">Teléfono</label>
+            <input type="text" class="form-control" name="telefono" id="telefono" formControlName="telefono" />
+          </div>
+
+          <div class="col-lg-4">
+            <label for="email" class="form-label">Email</label>
+            <input type="text" class="form-control" name="email" id="email" formControlName="email" />
+          </div>
+
+          <div class="col-lg-4">
+            <label for="direccion" class="form-label">Dirección</label>
+            <input type="text" class="form-control" name="direccion" id="direccion" formControlName="direccion" />
           </div>
 
           <div class="col-lg-2">
@@ -37,13 +44,6 @@
             </div>
           </div>
 
-          <div class="col-lg-2">
-            <div class="form-check form-switch">
-              <label class="form-check-label" for="requiereStock">Requieren stock</label>
-              <input class="form-check-input" type="checkbox" name="requiereStock" id="requiereStock"
-                formControlName="requiereStock">
-            </div>
-          </div>
         </div>
 
         <div class="button-form-filter">
@@ -62,13 +62,21 @@
     rowHeight="auto" [loadingIndicator]="loading" [externalSorting]="true" (sort)="onSort($event)"
     [externalPaging]="true" [count]="page.totalElements" [offset]="page.offset" [limit]="page.size"
     (page)="setPage($event)">
-    <ngx-datatable-column name="Descripción" prop="descripcion"></ngx-datatable-column>
-    <ngx-datatable-column name="Categoría" prop="categoria.descripcion"></ngx-datatable-column>
-    <ngx-datatable-column name="Stock" prop="stock"></ngx-datatable-column>
-    <ngx-datatable-column name="Cant. mín" prop="cantidadMinima"></ngx-datatable-column>
-    <ngx-datatable-column name="Precio Venta" prop="precioVenta">
+    <ngx-datatable-column name="Razón Social" prop="razonSocial"></ngx-datatable-column>
+    <ngx-datatable-column name="CUIT/DNI" prop="cuitDni"></ngx-datatable-column>
+    <ngx-datatable-column name="Teléfono" prop="telefono">
       <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-        {{ value | currency :'$':'symbol':'1.2-2' }}
+        {{ value ? value : '-'}}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Email" prop="email">
+      <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+        {{ value ? value : '-'}}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Dirección" prop="direccion">
+      <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+        {{ value ? value : '-'}}
       </ng-template>
     </ngx-datatable-column>
     <ngx-datatable-column name="Activo" prop="activo">

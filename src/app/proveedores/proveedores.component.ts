@@ -1,66 +1,59 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { DeleteProductoModalComponent } from './delete-productos-modal.component';
-import { ProductoService } from './productos.service';
-import { IProducto } from './productos.models';
+import { DeleteProveedorModalComponent } from './delete-proveedores-modal.component';
+import { ProveedorService } from './proveedores.service';
+import { IProveedor } from './proveedores.models';
 import { FormBuilder } from '@angular/forms';
 import { IPage, newPage, totalPages } from '../shared/page.models';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ICategoriaProducto } from '../categorias-productos/categorias-productos.models';
-import { CategoriaProductoService } from '../categorias-productos/categorias-productos.service';
 
 @Component({
-  selector: 'app-productos',
-  templateUrl: './productos.component.html'
+  selector: 'app-proveedores',
+  templateUrl: './proveedores.component.html'
 })
-export class ProductoComponent implements OnInit {
+export class ProveedorComponent implements OnInit {
   private ngbModalRef: NgbModalRef | undefined;
 
   collapsedFilter: boolean = false;
   page!: IPage;
 
   myForm = this.fb.group({
-    descripcion: [null],
-    categoriaId: [null],
-    requiereStock: [null],
+    razonSocial: [null],
+    telefono: [null],
+    email: [null],
+    direccion: [null],
     verInactivos: [null],
   });
-  categorias: ICategoriaProducto[] = [];
 
-  rows: IProducto[] = [];
+  rows: IProveedor[] = [];
   loading = false;
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private productoService: ProductoService,
-    private categoriaProductoService: CategoriaProductoService,
+    private productoService: ProveedorService,
     private modalService: NgbModal,
     private fb: FormBuilder,
   ) {
     this.activatedRoute.data.subscribe(data => {
-      this.page = data.pagingParams ? data.pagingParams : newPage({ activo: true }, ['descripcion', 'ASC']);
+      this.page = data.pagingParams ? data.pagingParams : newPage({ activo: true }, ['razonSocial', 'ASC']);
     });
   }
 
   ngOnInit(): void {
-    this.categoriaProductoService.findAll({
-      limit: 0,
-      activa: true
-    }).subscribe(
-      (res) => this.categorias = res.body.rows
-    );
-
     this.findAll();
 
-    if (this.page.filter.descripcion) {
-      this.myForm.get(['descripcion'])!.setValue(this.page.filter.descripcion);
+    if (this.page.filter.razonSocial) {
+      this.myForm.get(['razonSocial'])!.setValue(this.page.filter.razonSocial);
     }
-    if (this.page.filter.categoriaId) {
-      this.myForm.get(['categoriaId'])!.setValue(this.page.filter.categoriaId);
+    if (this.page.filter.telefono) {
+      this.myForm.get(['telefono'])!.setValue(this.page.filter.telefono);
     }
-    if (this.page.filter.requiereStock) {
-      this.myForm.get(['requiereStock'])!.setValue(this.page.filter.requiereStock);
+    if (this.page.filter.email) {
+      this.myForm.get(['email'])!.setValue(this.page.filter.email);
+    }
+    if (this.page.filter.direccion) {
+      this.myForm.get(['direccion'])!.setValue(this.page.filter.direccion);
     }
     if (this.page.filter.activo) {
       this.myForm.get(['verInactivos'])!.setValue(false);
@@ -93,19 +86,24 @@ export class ProductoComponent implements OnInit {
 
   onFilter(): void {
     this.page.filter = {};
-    if (this.myForm.get(['descripcion'])!.value) {
+    if (this.myForm.get(['razonSocial'])!.value) {
       Object.assign(this.page.filter, {
-        descripcion: this.myForm.get(['descripcion'])!.value.toLowerCase()
+        razonSocial: this.myForm.get(['razonSocial'])!.value.toLowerCase()
       });
     }
-    if (this.myForm.get(['categoriaId'])!.value) {
+    if (this.myForm.get(['telefono'])!.value) {
       Object.assign(this.page.filter, {
-        categoriaId: this.myForm.get(['categoriaId'])!.value
+        telefono: this.myForm.get(['telefono'])!.value.toLowerCase()
       });
     }
-    if (this.myForm.get(['requiereStock'])!.value) {
+    if (this.myForm.get(['email'])!.value) {
       Object.assign(this.page.filter, {
-        requiereStock: this.myForm.get(['requiereStock'])!.value
+        email: this.myForm.get(['email'])!.value.toLowerCase()
+      });
+    }
+    if (this.myForm.get(['direccion'])!.value) {
+      Object.assign(this.page.filter, {
+        direccion: this.myForm.get(['direccion'])!.value.toLowerCase()
       });
     }
     if (!this.myForm.get(['verInactivos'])!.value) {
@@ -121,9 +119,10 @@ export class ProductoComponent implements OnInit {
     this.page.filter = { activo: true };
     this.page = newPage(this.page.filter, this.page.order);
     this.myForm.get(['verInactivos'])!.setValue(false);
-    this.myForm.get(['descripcion'])!.setValue('');
-    this.myForm.get(['categoriaId'])!.setValue(null);
-    this.myForm.get(['requiereStock'])!.setValue(false);
+    this.myForm.get(['razonSocial'])!.setValue('');
+    this.myForm.get(['telefono'])!.setValue('');
+    this.myForm.get(['email'])!.setValue('');
+    this.myForm.get(['direccion'])!.setValue('');
     this.findAll();
   }
 
@@ -133,7 +132,7 @@ export class ProductoComponent implements OnInit {
   }
 
   delete(id: number): void {
-    this.ngbModalRef = this.modalService.open(DeleteProductoModalComponent, { size: 'lg', backdrop: 'static' });
+    this.ngbModalRef = this.modalService.open(DeleteProveedorModalComponent, { size: 'lg', backdrop: 'static' });
     this.ngbModalRef.componentInstance.id = id;
     this.ngbModalRef.result.then(
       () => {
@@ -147,7 +146,7 @@ export class ProductoComponent implements OnInit {
   }
 
   transition(): void {
-    this.router.navigate(['/productos'], {
+    this.router.navigate(['/proveedores'], {
       queryParams: {
         page: JSON.stringify(this.page)
       },

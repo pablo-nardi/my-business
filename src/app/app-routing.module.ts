@@ -23,6 +23,10 @@ export const routes: Routes = [
         path: 'productos',
         loadChildren: () => import('./productos/productos.module').then(m => m.ProductoModule)
       },
+      {
+        path: 'proveedores',
+        loadChildren: () => import('./proveedores/proveedores.module').then(m => m.ProveedorModule)
+      },
     ],
   },
   { path: '**', redirectTo: '/' },

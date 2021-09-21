@@ -23,6 +23,7 @@ export class UpdateProductoComponent implements OnInit {
     categoriaId: [null, [Validators.required]],
     stock: [null, [Validators.required, Validators.min(0)]],
     cantidadMinima: [null, [Validators.required, Validators.min(0)]],
+    precioVenta: [null, [Validators.required, Validators.min(0)]],
     activo: [null],
   });
 
@@ -53,9 +54,10 @@ export class UpdateProductoComponent implements OnInit {
     this.myForm.patchValue({
       id: producto.id,
       descripcion: producto.descripcion,
-      categoriaId: producto.Categoria.id,
+      categoriaId: producto.categoria.id,
       stock: producto.stock,
       cantidadMinima: producto.cantidadMinima,
+      precioVenta: producto.precioVenta,
       activo: producto.activo,
     });
   }
@@ -81,6 +83,7 @@ export class UpdateProductoComponent implements OnInit {
       categoriaId: this.myForm.get(['categoriaId'])!.value,
       stock: this.myForm.get(['stock'])!.value,
       cantidadMinima: this.myForm.get(['cantidadMinima'])!.value,
+      precioVenta: this.myForm.get(['precioVenta'])!.value,
       activo: this.myForm.get(['activo'])!.value,
     };
   }

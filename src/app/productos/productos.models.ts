@@ -5,8 +5,9 @@ export interface IProducto {
   descripcion: string;
   stock: number;
   cantidadMinima: number;
+  precioVenta: number;
   activo: boolean;
-  Categoria: ICategoriaProducto;
+  categoria: ICategoriaProducto;
 }
 
 export interface IProductoUpdate {
@@ -14,6 +15,7 @@ export interface IProductoUpdate {
   descripcion: string;
   stock: number;
   cantidadMinima: number;
+  precioVenta: number;
   activo: boolean;
   categoriaId: number;
 }
