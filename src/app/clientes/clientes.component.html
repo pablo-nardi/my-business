@@ -2,6 +2,22 @@
 
 
 
-  <h1>CLIENTES COMPONENTS</h1>
+  
+  <ngx-datatable
+    class="material striped"
+    [rows]="rows"
+    [columnMode]="'force'" 
+    [headerHeight]="50"
+    [footerHeight]="50" 
+    rowHeight="auto" 
+    [loadingIndicator]="loading"
+    [externalSorting]="true" 
+    [externalPaging]="true"
+    [count]="page.totalElements"
+    [offset]="page.offset"
+    [limit]="page.size"
+    >
+    <ngx-datatable-column name="nombre" prop="nombre"></ngx-datatable-column>
+  </ngx-datatable>
 
 </div>

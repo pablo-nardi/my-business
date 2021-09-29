@@ -13,5 +13,15 @@ export const clientesRoutes: Routes = [
    data:{
        title: 'Clientes'
    }
+  },
+  {
+    path: 'new',
+    component: ClientesComponent,
+    resolve:{
+      paginParams: PagingParamsResolve
+    },
+    data:{
+      title: 'Clientes-New'
+    }
   }
 ];
