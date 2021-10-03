@@ -5,13 +5,14 @@ import {SharedModule} from '../shared/shared.module';
 import {clientesRoutes} from './clientes.route';
 
 import {ClientesComponent} from './clientes.component';
+import {DeleteClientesModalComponent} from './delete-clientes-modal.component';
 
 
 
 
 
 @NgModule({
-  declarations: [ClientesComponent],
+  declarations: [ClientesComponent, DeleteClientesModalComponent], // here
   imports: [
     CommonModule,
     SharedModule,

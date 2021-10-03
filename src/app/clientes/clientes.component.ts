@@ -5,6 +5,7 @@ import { IPage, newPage, totalPages } from '../shared/page.models';
 import { ActivatedRoute, Router } from '@angular/router';
 import {ClientesService} from './clientes.service';
 import {ICliente} from './clientes.models';
+import {DeleteClientesModalComponent} from './delete-clientes-modal.component';
 
 @Component({
   selector: 'app-clientes',
@@ -12,16 +13,21 @@ import {ICliente} from './clientes.models';
   styleUrls: ['./clientes.component.scss']
 })
 export class ClientesComponent implements OnInit {
+  private ngbModalRef: NgbModalRef | undefined;
 
   collapsedFilter: boolean = false;
   page!: IPage;
   myForm = this.fb.group({
-    nombre:[null]
+    dni: [null],
+    nombre: [null],
+    apellido: [null],
+    verInactivos: [null],
+    esMayorista: [null]
   });
-  rows: ICliente[]=[];
+  rows: ICliente[] = [];
   loading = false;
 
- 
+
 
   constructor(
     private router: Router,
@@ -32,20 +38,34 @@ export class ClientesComponent implements OnInit {
   )
     {
       this.activatedRoute.data.subscribe(data => {
-        this.page = data.pagingParams ? data.pagingParams : newPage({activa: true}, ['nombre', 'ASC']);
+        this.page = data.pagingParams ? data.pagingParams : newPage({activo: true}, ['nombre', 'ASC']);
       });
     }
 
   ngOnInit(): void {
     this.findAll();
 
-    if (this.page.filter.descripcion){
-      this.myForm.get(['nombre'])!.setValue(this.page.filter.descripcion);
+    if (this.page.filter.nombre){
+      this.myForm.get(['nombre'])!.setValue(this.page.filter.nombre);
     }
+    if(this.page.filter.apellido){
+      this.myForm.get(['apellido'])!.setValue(this.page.filter.apellido);
+    }
+    if(this.page.filter.activo){
+      this.myForm.get(['verInactivos'])!.setValue(false);
+    }else{
+      this.myForm.get(['verInactivos'])!.setValue(true);
+    }
+    //this.myForm.get(['esMayorista'])!.setValue(true);
+
+
+
+
+
   }
 
-  
-  findAll():void {
+
+  findAll(): void {
     this.transition();
     this.loading = true;
     this.clientesService.findAll({
@@ -62,7 +82,66 @@ export class ClientesComponent implements OnInit {
     },() => this.loading = false);
 
   }
-  
+  onFilter(): void{
+    this.page.filter = {};
+
+    if (this.myForm.get(['dni'])!.value){
+      Object.assign(this.page.filter, {
+        dni: this.myForm.get(['dni'])!.value.toLowerCase()
+      });
+    }
+    if (this.myForm.get(['nombre'])!.value){
+      Object.assign(this.page.filter, {
+        nombre: this.myForm.get(['nombre'])!.value.toLowerCase()
+      });
+    }
+    if (this.myForm.get(['apellido'])!.value){
+      Object.assign(this.page.filter, {
+        apellido: this.myForm.get(['apellido'])!.value.toLowerCase()
+      });
+    }
+    if(!this.myForm.get(['verInactivos'])!.value){
+      Object.assign(this.page.filter,{
+        activo: true
+      });
+    }/*
+    if(this.myForm.get(['esMayorista'])!.value){
+      Object.assign(this.page.filter,{
+        esMayorista: true
+      });
+    }*/
+
+    this.findAll();
+  }
+  onSort(event: any): void {
+    this.page.order = [event.sorts[0].prop, event.sorts[0].dir];
+    this.findAll();
+  }
+  setPage(pageInfo: any): void {
+    this.page.offset = pageInfo.offset;
+    this.findAll();
+  }
+  clearFilter(): void{
+    this.page.filter = {activa: true};
+    this.page = newPage(this.page.filter, this.page.order);
+    this.myForm.get(['dni'])!.setValue('');
+    this.myForm.get(['nombre'])!.setValue('');
+    this.myForm.get(['verInactivos'])!.setValue(false);
+    this.findAll();
+  }
+  delete(dni: string): void {
+    this.ngbModalRef = this.modelService.open(DeleteClientesModalComponent, { size: 'lg', backdrop: 'static'});
+    this.ngbModalRef.componentInstance.dni = dni; // careful here
+    this.ngbModalRef.result.then(
+      () => {
+        this.ngbModalRef = undefined;
+        this.findAll();
+      },
+      () => {
+        this.ngbModalRef = undefined;
+      }
+    );
+  }
   transition():void {
     this.router.navigate(['/clientes'],{
       queryParams:{

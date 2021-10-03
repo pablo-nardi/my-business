@@ -19,4 +19,8 @@ export class ClientesService {
     return this.http.get<any>(`${this.resourceUrl}`, {params: options, observe: 'response'});
 
   }
+  find(dni: string): Observable<HttpResponse<ICliente>> {
+    return this.http.get<ICliente>(`${this.resourceUrl}/${dni}`, {observe: 'response'});
+  }
+
 }
