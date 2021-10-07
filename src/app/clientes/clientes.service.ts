@@ -22,5 +22,14 @@ export class ClientesService {
   find(dni: string): Observable<HttpResponse<ICliente>> {
     return this.http.get<ICliente>(`${this.resourceUrl}/${dni}`, {observe: 'response'});
   }
+  create(cliente: ICliente): Observable<HttpResponse<ICliente>> {
+    return this.http.post<ICliente>(this.resourceUrl, cliente,{ observe: 'response'});
+  }
+  update(cliente: ICliente): Observable<HttpResponse<ICliente>> {
+    return this.http.put<ICliente>(this.resourceUrl, cliente,{ observe: 'response'});
+  }
+  delete(dni: string): Observable<HttpResponse<any>>{
+    return this.http.delete<any>( `${this.resourceUrl}/${dni}`, { observe: 'response'});
+  }
 
 }

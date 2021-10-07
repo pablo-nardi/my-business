@@ -23,6 +23,8 @@ export class DeleteClientesModalComponent implements OnInit{
     this.activeModal.dismiss();
   }
   confirmDelete(dni: string){
-
+    this.clienteService.delete(dni).subscribe(() => {
+      this.activeModal.close();
+    });
   }
 }

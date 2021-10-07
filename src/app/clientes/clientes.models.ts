@@ -4,6 +4,6 @@ export interface ICliente{
     apellido: string;
     telefono: string;
     direccion: string;
-    tipoCliente: string;
+    esMayorista: boolean;
     activo: boolean;
 }

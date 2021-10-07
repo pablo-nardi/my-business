@@ -74,22 +74,33 @@
     [offset]="page.offset"
     [limit]="page.size"
     (page)="setPage($event)"
+
     >
     <ngx-datatable-column name="dni" prop="dni"></ngx-datatable-column>
     <ngx-datatable-column name="nombre" prop="nombre"></ngx-datatable-column>
     <ngx-datatable-column name="apellido" prop="apellido"></ngx-datatable-column>
-    <ngx-datatable-column  name="activo" prop="activo" >
-      <ng-template   let-value="value" let-row="row" ngx-datatable-cell-templeate >
+    <ngx-datatable-column  name="Activo" prop="activo" >
+      <ng-template   let-value="value" let-row="row" ngx-datatable-cell-template >
         <fa-icon *ngIf="value" icon="check-square" class="text-success"></fa-icon>
         <fa-icon *ngIf="!value" icon="square" class="text-danger"></fa-icon>
       </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column  name="esMayorista" prop="esMayorista" >
+    <ngx-datatable-column  name="Mayorista" prop="esMayorista" >
+      <ng-template   let-value="value" let-row="row" ngx-datatable-cell-template >
+        <fa-icon *ngIf="value" icon="check-square" class="text-success"></fa-icon>
+        <fa-icon *ngIf="!value" icon="square" class="text-danger"></fa-icon>
+      </ng-template>
     </ngx-datatable-column>
     <ngx-datatable-column  name="telefono" prop="telefono" ></ngx-datatable-column>
     <ngx-datatable-column  name="direccion" prop="direccion" ></ngx-datatable-column>
     <ngx-datatable-column name="" prop="dni" [sortable]="false" [cellClass]="'column-actions'">
       <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+        <button type="button" [routerLink]="['./',value,'edit']" class="btn btn-primary" title="Editar" >
+          <fa-icon icon="pencil-alt"></fa-icon>
+        </button>
+        <button type="button" [routerLink]="['./', value, 'view']" class="btn btn-primary" title="Ver">
+          <fa-icon icon="eye"></fa-icon>
+        </button>
         <button type="button" class="btn btn-danger" title="Eliminar" (click)="delete(value)">
           <fa-icon icon="times"></fa-icon>
         </button>
